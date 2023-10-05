@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
+import { Link, BrowserRouter as Router, Route } from "react-router-dom";
 import EveryPost from "./EveryPost";
 import SinglePost from "./SinglePost";
 
