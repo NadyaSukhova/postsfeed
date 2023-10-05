@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/postsfeed/static/js/main.5107234a.js",
+    "index.html": "/postsfeed/index.html",
+    "main.5107234a.js.map": "/postsfeed/static/js/main.5107234a.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.5107234a.js"
+  ]
+}
