@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import ShowPosts from "./components/ShowPost";
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.getPosts = this.getPosts.bind(this);
+    this.state = {
+      posts: [],
+    };
+  }
+  async getPosts() {
+    let res = [];
+    const url = `https://jsonplaceholder.typicode.com/posts`;
+    const response = await fetch(url);
+    const data = await response.json();
+    data.map((el) => res.push(el));
+    this.setState({posts: res})
+  }
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  
+  render() {
+    this.getPosts();
+    return <div><ShowPosts posts= {this.state.posts}/></div>;
+  }
 }
 
 export default App;
