@@ -42,10 +42,10 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<EveryPost posts={this.state.posts} />} />
+          <Route path="/postsfeed/" element={<EveryPost posts={this.state.posts} />} />
           {this.state.posts.map((el) => (
             <Route
-              path={"/" + String(el.id)}
+              path={"/postsfeed/" + String(el.id)}
               element={<SinglePost post={this.foundPost(el.id)} />}
             />
           ))}
