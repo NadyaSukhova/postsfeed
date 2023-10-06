@@ -7,7 +7,7 @@ class NoPage extends React.Component {
   render() {
     return <>
     <h2>Нет такой страницы :(</h2>
-    <Link to="/">
+    <Link to="/postsfeed">
     <button>Назад</button>
     </Link>
     </>

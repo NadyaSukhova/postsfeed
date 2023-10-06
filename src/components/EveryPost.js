@@ -13,7 +13,7 @@ class EveryPost extends React.Component {
         {el.body.slice(0, 50)}...
         <br />
         <br />
-        <Link to={"/" + String(el.id)}>
+        <Link to={"/postsfeed/" + String(el.id)}>
           <button>Просмотр</button>
         </Link>
       </>
