@@ -1,16 +1,32 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 class EveryPost extends React.Component {
-  render() {
+  JSXPost(el) {
     return (
-      <div>
-        <h2>Пост №{this.props.post.id}<br/>{this.props.post.title.toUpperCase()}</h2>
-        {this.props.post.body.slice(0, 50)}...<br/><br/>
-        <button onClick={() => this.props.showAll(this.props.post.id)}>Просмотр</button>
-      </div>
+      <>
+        <h2>
+          Пост №{el.id}
+          <br />
+          {el.title.toUpperCase()}
+        </h2>
+        {el.body.slice(0, 50)}...
+        <br />
+        <br />
+        <Link to={"/" + String(el.id)}>
+          <button>Просмотр</button>
+        </Link>
+      </>
     );
-  }Y
+  }
 
+  render() {
+    var res = [];
+    this.props.posts.forEach((el) => {
+      res.push(this.JSXPost(el));
+    });
+    return res;
+  }
 }
 
 export default EveryPost;
