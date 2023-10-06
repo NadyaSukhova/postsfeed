@@ -1,62 +1,74 @@
-import React from "react";
+import { useInfiniteQuery } from "react-query";
+import { useEffect } from "react";
 import EveryPost from "./components/EveryPost";
 import SinglePost from "./components/SinglePost";
 import NoPage from "./components/NoPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.showAll = this.showAll.bind(this);
-    this.state = {
-      posts: [],
-      idPost: 0,
-    };
-  }
+const fetchRepositories = async (pageNum = 1) => {
+  const response = await fetch(
+    `https://jsonplaceholder.typicode.com/posts?_page=${pageNum}&_limit=5`
+  );
+  return response.json();
+};
 
-  showAll(id) {
-    if (this.state.idPost) {
-      this.setState({ idPost: 0 });
-    } else {
-      this.setState({ idPost: id });
+const App = () => {
+  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery(
+    "repositories",
+    ({ pageParam }) => fetchRepositories(pageParam),
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        const maxPages = 21;
+        const nextPage = allPages.length + 1;
+        return nextPage < maxPages ? nextPage : undefined;
+      },
     }
-  }
+  );
 
-  async getPosts() {
-    let res = [];
-    const url = `https://jsonplaceholder.typicode.com/posts`;
-    const response = await fetch(url);
-    const data = await response.json();
-    data.map((el) => res.push(el));
-    this.setState({ posts: res });
-  }
+  useEffect(() => {
+    let fetching = false;
+    const onScroll = async (event) => {
+      const { scrollHeight, scrollTop, clientHeight } =
+        event.target.scrollingElement;
 
-  foundPost(id) {
-    return this.state.posts.find((obj) => {
-      return obj.id === id;
-    });
-  }
+      if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
+        fetching = true;
+        if (hasNextPage) await fetchNextPage();
+        fetching = false;
+      }
+    };
 
-  render() {
-    this.getPosts();
-    return (
+    document.addEventListener("scroll", onScroll);
+    return () => {
+      document.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  console.log(data);
+  return (
+
       <BrowserRouter>
         <Routes>
           <Route
-            path="/postsfeed/"
-            element={<EveryPost posts={this.state.posts} />}
+            key={"all"}
+            path={"/postsfeed/"}
+            element={<EveryPost posts={data} />}
           />
-          {this.state.posts.map((el) => (
-            <Route key={String(el.id)}
-              path={"/postsfeed/" + String(el.id)}
-              element={<SinglePost post={this.foundPost(el.id)} />}
-            />
-          ))}
+          {data.pages.map((page) =>
+            page.map((post) => (
+
+                <Route
+                  key={"post_" + String(post.id)}
+                  path={"/postsfeed/" + String(post.id)}
+                  element={<SinglePost post={post} />}
+                />
+            ))
+          )}
+
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
-    );
-  }
-}
+  );
+};
 
 export default App;

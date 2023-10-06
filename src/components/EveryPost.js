@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 class EveryPost extends React.Component {
   JSXPost(el) {
     return (
-      <div key={"post_" + String(el.id)}>
+      <div key={el.id}>
         <h3>Пост №{el.id}</h3>
         <h2 style={{ width: "60%" }}>
           {el.title[0].toUpperCase()}
@@ -23,9 +23,9 @@ class EveryPost extends React.Component {
 
   render() {
     var res = [];
-    this.props.posts.forEach((el) => {
-      res.push(this.JSXPost(el));
-    });
+    {this.props.posts.pages.map((page) =>
+        page.map((post) => res.push(this.JSXPost(post)))
+      )}
     return res;
   }
 }
