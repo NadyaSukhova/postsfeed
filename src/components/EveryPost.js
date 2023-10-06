@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 class EveryPost extends React.Component {
   JSXPost(el) {
     return (
-      <>
-        <h2>
-          Пост №{el.id}
-          <br />
-          {el.title.toUpperCase()}
+      <div key={"post_" + String(el.id)}>
+        <h3>Пост №{el.id}</h3>
+        <h2 style={{ width: "60%" }}>
+          {el.title[0].toUpperCase()}
+          {el.title.substr(1)}
         </h2>
         {el.body.slice(0, 50)}...
         <br />
@@ -16,7 +16,8 @@ class EveryPost extends React.Component {
         <Link to={"/postsfeed/" + String(el.id)}>
           <button>Просмотр</button>
         </Link>
-      </>
+        <hr />
+      </div>
     );
   }
 

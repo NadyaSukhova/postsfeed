@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 class NoPage extends React.Component {
 
   render() {
-    return <>
+    return <> 
     <h2>Нет такой страницы :(</h2>
     <Link to="/postsfeed">
     <button>Назад</button>

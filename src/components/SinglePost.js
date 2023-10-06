@@ -4,19 +4,20 @@ import { Link } from "react-router-dom";
 class EveryPost extends React.Component {
   render() {
     return (
-      <div>
-        <h2>
+      <>
+        <h2 style={{ textAlign: "center" }}>
           Пост №{this.props.post.id}
           <br />
-          {this.props.post.title.toUpperCase()}
+          Заголовок: {this.props.post.title}
+          <br />
         </h2>
-        {this.props.post.body}
-        <br />
-        <br />
-        <Link to="/">
+        <h3>ID пользователя: {this.props.post.userId}</h3>
+        <h3>Текст поста:</h3>
+        <p style={{ width: "80%" }}>{this.props.post.body}</p>
+        <Link to="/postsfeed">
           <button>Назад</button>
         </Link>
-      </div>
+      </>
     );
   }
 }
